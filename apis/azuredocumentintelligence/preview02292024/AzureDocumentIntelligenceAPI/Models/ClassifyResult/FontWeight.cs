@@ -1,18 +1,18 @@
 ﻿namespace AzureDocumentIntelligenceAPI.Models.ClassifyResult
 {
     /// <summary>
-    /// Presence of signature.
+    /// Font weight.
     /// </summary>
-    public enum DocumentSignatureType
+    public enum FontWeight
     {
         /// <summary>
-        /// A signature is detected.
+        /// Characters are represented with thicker strokes.
         /// </summary>
-        signed,
+        bold,
 
         /// <summary>
-        /// No signatures are detected.
+        /// Characters are represented normally.
         /// </summary>
-        unsigned
+        normal
     }
 }

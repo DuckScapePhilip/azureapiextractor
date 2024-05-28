@@ -1,6 +1,20 @@
-﻿namespace AzureDocumentIntelligenceAPI.Models.ClassifyResult
+﻿using Newtonsoft.Json;
+
+namespace AzureDocumentIntelligenceAPI.Models.ClassifyResult
 {
-    public class DocumentFormulaKind
+    /// <summary>
+    /// Formula kind.
+    /// </summary>
+    public enum DocumentFormulaKind
     {
+        /// <summary>
+        /// A formula in display mode that takes up an entire line.
+        /// </summary>
+        Display,
+
+        /// <summary>
+        /// A formula embedded within the content of a paragraph.
+        /// </summary>
+        Inline
     }
 }

@@ -3,30 +3,24 @@
 namespace AzureDocumentIntelligenceAPI.Models.ClassifyResult
 {
     /// <summary>
-    /// A caption object describing a table or figure.
+    /// An object representing the field key or value in a key-value pair.
     /// </summary>
-    public class DocumentCaption
+    public class DocumentKeyValueElement
     {
         /// <summary>
-        /// Bounding regions covering the caption.
+        /// Bounding regions covering the key-value element.
         /// </summary>
         [JsonProperty("boundingRegions")]
         public BoundingRegion[]? BoundingRegions { get; set; }
 
         /// <summary>
-        /// Content of the caption.
+        /// Concatenated content of the key-value element in reading order.
         /// </summary>
         [JsonProperty("content")]
-        public ContentFormat? Content { get; set; }
+        public string? Content { get; set; }
 
         /// <summary>
-        /// Child elements of the caption.
-        /// </summary>
-        [JsonProperty("elements")]
-        public string? Elements { get; set; }
-
-        /// <summary>
-        /// Location of the caption in the reading order concatenated content.
+        /// Location of the key-value element in the reading order concatenated content.
         /// </summary>
         [JsonProperty("spans")]
         public DocumentSpan[]? Spans { get; set; }
