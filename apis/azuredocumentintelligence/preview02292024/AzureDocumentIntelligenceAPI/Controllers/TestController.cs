@@ -35,21 +35,21 @@ namespace AzureDocumentIntelligenceAPI.Controllers
         //    }
         //}
 
-        [HttpPost("classify-document")]
-        public async Task<IActionResult> ClassifyDocument(ClassifyDocumentRequestBody requestBody)
-        {
-            try
-            {
-                _logger.LogInformation("Received request to classify document.");
-                var result = await _client.ClassifyDocumentAsync(requestBody);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Error occurred while classifying document. {ex.Message}");
-                return StatusCode(500, $"Erro: {ex.Message}\n{ex.StackTrace}");
-            }
-        }
+        //[HttpPost("classify-document")]
+        //public async Task<IActionResult> ClassifyDocument(ClassifyDocumentRequestBody requestBody)
+        //{
+        //    try
+        //    {
+        //        _logger.LogInformation("Received request to classify document.");
+        //        var result = await _client.ClassifyDocumentAsync(requestBody);
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, $"Error occurred while classifying document. {ex.Message}");
+        //        return StatusCode(500, $"Erro: {ex.Message}\n{ex.StackTrace}");
+        //    }
+        //}
 
         //[HttpPost("classify-document-from-stream")]
         //public async Task<IActionResult> ClassifyDocumentFromStream()

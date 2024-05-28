@@ -23,7 +23,7 @@ namespace AzureDocumentIntelligenceAPI.Models.ClassifyResult
         public string[]? Elements { get; set; }
 
         [JsonProperty("kind")]
-        public DocumentTableCellKind? Kind { get; set; } = content;
+        public DocumentTableCellKind? Kind { get; set; } = DocumentTableCellKind.content;
 
         [JsonProperty("rowIndex")]
         public int RowIndex { get; set; }
