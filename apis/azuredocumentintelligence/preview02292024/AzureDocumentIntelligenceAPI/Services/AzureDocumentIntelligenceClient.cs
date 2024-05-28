@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using Newtonsoft.Json;
 using AzureDocumentIntelligenceAPI.Models;
-using AzureDocumentIntelligenceAPI.Models.ClassifyDocument;
-using AzureDocumentIntelligenceAPI.Models.ClassifyResult;
 using AzureDocumentIntelligenceAPI.Models.Errors;
+using AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.ClassifyDocument;
+using AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyResult;
 
 namespace AzureDocumentIntelligenceAPI.Services
 {

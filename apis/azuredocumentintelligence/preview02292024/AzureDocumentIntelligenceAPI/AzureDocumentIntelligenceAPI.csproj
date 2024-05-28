@@ -12,4 +12,13 @@
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\DocumentModels\BuildModel\" />
+    <Folder Include="Models\DocumentClassifiers\ClassifyDocumentFromStream\" />
+    <Folder Include="Models\DocumentClassifiers\DeleteClassifier\" />
+    <Folder Include="Models\DocumentModels\AnalyzeDocumentFromStream\" />
+    <Folder Include="Models\DocumentModels\DeleteModel\" />
+    <Folder Include="Models\DocumentModels\GetAnalyzeResult\" />
+  </ItemGroup>
+
 </Project>
