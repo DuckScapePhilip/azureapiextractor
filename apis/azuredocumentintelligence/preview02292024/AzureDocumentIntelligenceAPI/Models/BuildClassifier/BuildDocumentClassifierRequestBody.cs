@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace AzureDocumentIntelligenceAPI.Models
+namespace AzureDocumentIntelligenceAPI.Models.BuildClassifier
 {
     // Request body for building a document classifier. 
     public class BuildDocumentClassifierRequestBody

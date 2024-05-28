@@ -1,6 +1,6 @@
 ﻿namespace AzureDocumentIntelligenceAPI.Models.ClassifyResult
 {
-    public class AnalyseResult
+    public class AnalyzeResult
     {
     }
 }

@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using AzureDocumentIntelligenceAPI.Models;
 using AzureDocumentIntelligenceAPI.Models.ClassifyDocument;
+using AzureDocumentIntelligenceAPI.Models.ClassifyResult;
+using AzureDocumentIntelligenceAPI.Models.Errors;
 
 namespace AzureDocumentIntelligenceAPI.Services
 {
@@ -126,19 +128,115 @@ namespace AzureDocumentIntelligenceAPI.Services
             try
             {
                 var response = await _httpClient.SendAsync(request, cancellationToken);
-                response.EnsureSuccessStatusCode();
-
-                var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-                _logger.LogInformation($"Response received: {responseContent}");
-                
-                var result = JsonConvert.DeserializeObject<AnalyzeResult>(responseContent);
-
-                if (result == null)
+                if (response.IsSuccessStatusCode)
                 {
-                    throw new Exception("Failed to deserialize classify document result.");
-                }
+                    // Read the Operation-Location header and poll for the operation status.
+                    string? operationLocation = response.Headers.GetValues("Operation-Location").FirstOrDefault();
+                    
+                    // If the operation location is not available, throw an exception.
+                    if (string.IsNullOrWhiteSpace(operationLocation))
+                    {
+                        throw new Exception("Operation location not found in response headers.");
+                    }
 
-                return result;
+                    // Read the "Retry-After" header to determine the polling interval.
+                    int retryAfter = response.Headers.RetryAfter?.Delta?.Seconds ?? 1;
+
+                    // Poll every X seconds (as indicated by "Retry-After") to check for the status of the operation.
+                    for (int i = 0; i < 1000; i++)
+                    {
+                        // Create a new HttpRequestMessage with the GET method and the operation location URL.
+                        HttpRequestMessage operationRequest = new HttpRequestMessage(HttpMethod.Get, operationLocation);
+                        operationRequest.Headers.Add("Ocp-Apim-Subscription-Key", _apiKey);
+
+                        _logger.LogInformation($"Polling operation status at {operationLocation}");
+
+                        // Send the GET request to the operation location.
+                        var operationResponse = await _httpClient.SendAsync(operationRequest, cancellationToken);
+                        var operationResponseContent = await operationResponse.Content.ReadAsStringAsync(cancellationToken);
+
+                        // If the operation response is successful, deserialize the response content into an AnalyzeResult object.
+                        if (operationResponse.IsSuccessStatusCode)
+                        {
+                            AnalyzeResultOperation? operationResult = JsonConvert.DeserializeObject<AnalyzeResultOperation>(operationResponseContent);
+
+                            // If the operation result is not null, return the result.
+                            if (operationResult != null)
+                            {
+                                // check that the operation completed successfully
+                                switch (operationResult.Status)
+                                {
+                                    case OperationStatus.canceled:
+                                        throw new Exception("Operation was canceled.");
+                                    case OperationStatus.failed:
+                                        {
+                                            Exception ex = new Exception("Operation failed.");
+                                            ex.Data.Add("ErrorResponse", operationResult);
+                                            throw ex;
+                                        }
+                                    case OperationStatus.succeeded:
+                                        {
+                                            if (operationResult.AnalyzeResult != null)
+                                            {
+                                                return operationResult.AnalyzeResult;
+                                            }
+                                            else
+                                            {
+                                                throw new Exception("Operation succeeded but no result was returned.");
+                                            }
+                                        }
+                                    case OperationStatus.completed:
+                                        {
+                                            throw new Exception("Operation completed but not succeeded.");
+                                        }
+                                }
+                            }
+                            else
+                            {
+                                throw new Exception("Failed to deserialize classify document result.");
+                            }
+                        }
+                        else
+                        {
+                            // Deserialize response into the error model and throw an exception with the error message.
+                            ErrorResponse? err = JsonConvert.DeserializeObject<ErrorResponse>(operationResponseContent);
+
+                            if (err != null)
+                            {
+                                Exception ex = new Exception($"Failed to classify document. Error: {err.Error?.Message}");
+                                ex.Data.Add("ErrorResponse", err);
+                                throw ex;
+                            }
+                            else
+                            {
+                                throw new Exception($"Failed to classify document. Response: {operationResponseContent}");
+                            }
+                        }
+
+                        // Delay the polling interval based on the "Retry-After" header.
+                        await Task.Delay(retryAfter * 1000, cancellationToken);
+                    }   
+
+                    // If the operation does not complete within the polling limit, throw an exception.
+                    throw new TimeoutException("Operation timed out.");
+                }
+                else
+                {
+                    // Deserialize response into the error model and throw an exception with the error message.
+                    var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                    ErrorResponse? err = JsonConvert.DeserializeObject<ErrorResponse>(responseContent);
+
+                    if (err != null)
+                    {
+                        Exception ex = new Exception($"Failed to classify document. Error: {err.Error?.Message}");
+                        ex.Data.Add("ErrorResponse", err);
+                        throw ex;
+                    }
+                    else
+                    {
+                        throw new Exception($"Failed to classify document. Response: {responseContent}");
+                    }
+                }
             }
             catch (Exception ex)
             {

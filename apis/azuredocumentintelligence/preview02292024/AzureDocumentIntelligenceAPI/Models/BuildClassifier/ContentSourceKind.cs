@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Converters;
 using Newtonsoft.Json;
 
-namespace AzureDocumentIntelligenceAPI.Models
+namespace AzureDocumentIntelligenceAPI.Models.BuildClassifier
 {
     // The kind of content source. Possible values include: 'azureBlob', 'azureBlobFileList', 'base64', 'url'.
     [JsonConverter(typeof(StringEnumConverter))]

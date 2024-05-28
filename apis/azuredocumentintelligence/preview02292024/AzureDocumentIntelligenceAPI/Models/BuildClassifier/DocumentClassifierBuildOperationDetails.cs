@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace AzureDocumentIntelligenceAPI.Models
+namespace AzureDocumentIntelligenceAPI.Models.BuildClassifier
 {
     // Document classifier build operation details. This is returned by the Get Operation API.
     public class DocumentClassifierBuildOperationDetails

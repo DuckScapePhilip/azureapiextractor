@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace AzureDocumentIntelligenceAPI.Models.Error
+namespace AzureDocumentIntelligenceAPI.Models.Errors
 {
     // Error response object.
     public class ErrorResponse
