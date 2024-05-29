@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace AzureDocumentIntelligenceAPI.Models.Errors
+namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.ClassifyDocumentFromStream
 {
     // Error response object.
     public class ErrorResponse
@@ -9,6 +9,6 @@ namespace AzureDocumentIntelligenceAPI.Models.Errors
         /// Error info.
         /// </summary>
         [JsonProperty("error")]
-        public InnerError? Error { get; set; }
+        public Error? Error { get; set; }
     }
 }

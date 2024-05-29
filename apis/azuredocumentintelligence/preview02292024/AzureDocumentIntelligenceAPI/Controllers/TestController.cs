@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AzureDocumentIntelligenceAPI.Services;
 using AzureDocumentIntelligenceAPI.Models;
-using AzureDocumentIntelligenceAPI.Models.ClassifyDocument;
-using AzureDocumentIntelligenceAPI.Models.ClassifyDocument;
 
 namespace AzureDocumentIntelligenceAPI.Controllers
 {

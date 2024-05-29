@@ -17,13 +17,13 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyRes
         /// Content of the caption.
         /// </summary>
         [JsonProperty("content")]
-        public ContentFormat? Content { get; set; }
+        public string? Content { get; set; }
 
         /// <summary>
         /// Child elements of the caption.
         /// </summary>
         [JsonProperty("elements")]
-        public string? Elements { get; set; }
+        public string[]? Elements { get; set; }
 
         /// <summary>
         /// Location of the caption in the reading order concatenated content.

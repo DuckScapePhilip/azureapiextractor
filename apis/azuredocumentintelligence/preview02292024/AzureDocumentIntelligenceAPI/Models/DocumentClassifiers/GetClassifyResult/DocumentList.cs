@@ -16,7 +16,7 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyRes
         /// <summary>
         /// Location of the list in the reading order concatenated content.
         /// </summary>
-        [JsonProperty("span")]
-        public DocumentSpan[]? Span { get; set; }
+        [JsonProperty("spans")]
+        public DocumentSpan[]? Spans { get; set; }
     }
 }

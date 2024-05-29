@@ -1,5 +1,4 @@
-﻿using AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.BuildClassifier;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifier
 {
@@ -42,12 +41,18 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifier
         /// List of document types to classify against.
         /// </summary>
         [JsonProperty("docTypes")]
-        public Dictionary<string, ClassifierDocumentTypeDetails>? DocTypes { get; set; }
+        public List<ClassifierDocumentTypeDetails>? DocTypes { get; set; }
 
         /// <summary>
         /// Date and time (UTC) when the document classifier will expire.
         /// </summary>
         [JsonProperty("expirationDateTime")]
         public DateTime ExpirationDateTime { get; set; } = DateTime.Now.AddYears(1);
+
+        /// <summary>
+        /// List of warnings encountered while building the classifier.
+        /// </summary>
+        [JsonProperty("warnings")]
+        public Warning[]? Warnings { get; set; }
     }
 }

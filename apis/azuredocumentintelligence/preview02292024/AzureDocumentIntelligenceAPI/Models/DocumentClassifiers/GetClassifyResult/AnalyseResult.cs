@@ -18,13 +18,13 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyRes
         /// Concatenate string representation of all textual and visual elements in reading order.
         /// </summary>
         [JsonProperty("content")]
-        public ContentFormat? Content { get; set; }
+        public string? Content { get; set; }
 
         /// <summary>
         /// Format of the analyze result top-level content.
         /// </summary>
         [JsonProperty("contentFormat")]
-        public string? ContentFormat { get; set; }
+        public ContentFormat? ContentFormat { get; set; }
 
         /// <summary>
         /// Extracted documents.

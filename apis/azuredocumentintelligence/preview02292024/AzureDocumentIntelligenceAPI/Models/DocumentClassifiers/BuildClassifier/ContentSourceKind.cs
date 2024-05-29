@@ -12,25 +12,21 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.BuildClassifie
         /// <summary>
         /// Files in a path within an Azure Blob Storage container.
         /// </summary>
-        [JsonProperty("azureBlob")]
-        AzureBlob,
+        azureBlob,
 
         /// <summary>
         /// A file list specifying individual files in an Azure Blob Storage container.
         /// </summary>
-        [JsonProperty("azureBlobFileList")]
-        AzureBlobFileList,
+        azureBlobFileList,
 
         /// <summary>
         /// Content represented via Base64 encoding.
         /// </summary>
-        [JsonProperty("base64")]
-        Base64,
+        base64,
 
         /// <summary>
         /// Content at a specific URL.
         /// </summary>
-        [JsonProperty("url")]
-        Url
+        url
     }
 }

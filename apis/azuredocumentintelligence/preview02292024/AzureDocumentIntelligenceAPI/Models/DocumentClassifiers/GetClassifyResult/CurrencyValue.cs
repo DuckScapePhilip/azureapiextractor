@@ -5,7 +5,7 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyRes
     /// <summary>
     /// Currency field value.
     /// </summary>
-    public class CurrentValue
+    public class CurrencyValue
     {
         /// <summary>
         /// Currency amount.

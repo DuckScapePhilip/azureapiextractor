@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyResult
+namespace AzureDocumentIntelligenceAPI.Models.DocumentModels.GetAnalyzeResult
 {
     /// <summary>
     /// Semantic data type of the field value.
     /// </summary>
-    public class DocumentFielType
+    public class DocumentFieldType
     {
         /// <summary>
         /// Parsed address.
@@ -64,8 +64,8 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyRes
         /// <summary>
         /// Phone double, normalized to E.164 (+{CountryCode}{Subscriberdouble}) format.
         /// </summary>
-        [JsonProperty("phonedouble")]
-        public string? Phonedouble { get; set; }
+        [JsonProperty("phoneNumber")]
+        public string? PhoneNumber { get; set; }
 
         /// <summary>
         /// Array of selected string values.

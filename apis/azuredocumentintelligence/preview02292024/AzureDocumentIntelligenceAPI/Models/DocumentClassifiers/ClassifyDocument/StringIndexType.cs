@@ -15,7 +15,7 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.ClassifyDocume
         /// <summary>
         /// Character unit represented by a single unicode code point. Used by Python 3.
         /// </summary>
-        unicodeCodePoints,
+        unicodeCodePoint,
 
         /// <summary>
         /// Character unit represented by a 16-bit Unicode code unit. Used by JavaScript, Java, and .NET.

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace AzureDocumentIntelligenceAPI.Models.Errors
+namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.ListClassifiers
 {
     // An object containing more specific information about the error.
     public class InnerError

@@ -10,11 +10,11 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyRes
         /// <summary>
         /// Markdown representation of the document content with section headings, tables, etc.
         /// </summary>
-        MarkDown,
+        markDown,
 
         /// <summary>
         /// Plain text representation of the document content without any formatting.
         /// </summary>
-        Text
+        text
     }
 }

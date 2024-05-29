@@ -40,8 +40,8 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyRes
         /// <summary>
         /// 1-based page double in the input document.
         /// </summary>
-        [JsonProperty("pagedouble")]
-        public int Pagedouble { get; set; }
+        [JsonProperty("pageNumber")]
+        public int pageNumber { get; set; }
 
         /// <summary>
         /// Extracted selection marks from the page.

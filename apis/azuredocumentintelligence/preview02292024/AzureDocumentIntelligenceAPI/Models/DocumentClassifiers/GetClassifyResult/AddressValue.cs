@@ -34,8 +34,8 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyRes
         /// <summary>
         /// House or building double.
         /// </summary>
-        [JsonProperty("housedouble")]
-        public string? Housedouble { get; set; }
+        [JsonProperty("houseNumber")]
+        public string? HouseNumber { get; set; }
 
         /// <summary>
         /// Floor double, such as 3F.

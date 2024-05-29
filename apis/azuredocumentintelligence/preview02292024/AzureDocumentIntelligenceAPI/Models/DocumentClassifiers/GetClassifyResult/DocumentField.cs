@@ -10,8 +10,8 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyRes
         /// <summary>
         /// Bounding regions covering the field.
         /// </summary>
-        [JsonProperty("boundingRegion")]
-        public BoundingRegion[]? BoundingRegion { get; set; }
+        [JsonProperty("boundingRegions")]
+        public BoundingRegion[]? BoundingRegions { get; set; }
 
         /// <summary>
         /// Confidence of correctly extracting the field.
@@ -23,7 +23,7 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyRes
         /// Field content.
         /// </summary>
         [JsonProperty("content")]
-        public ContentFormat? Content { get; set; }
+        public string? Content { get; set; }
 
         /// <summary>
         /// Location of the field in the reading order concatenated content.
@@ -35,13 +35,13 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyRes
         /// Data type of the field value.
         /// </summary>
         [JsonProperty("type")]
-        public string? Type { get; set; }
+        public DocumentFieldType? Type { get; set; }
 
         /// <summary>
         /// Address value.
         /// </summary>
         [JsonProperty("valueAddress")]
-        public string? ValueAddress { get; set; }
+        public AddressValue? ValueAddress { get; set; }
 
         /// <summary>
         /// Array of field values.
@@ -65,7 +65,7 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyRes
         /// Currency value.
         /// </summary>
         [JsonProperty("valueCurrency")]
-        public CurrentValue? ValueCurrency { get; set; }
+        public CurrencyValue? ValueCurrency { get; set; }
 
         /// <summary>
         /// Date value in YYYY-MM-DD format (ISO 8601).
@@ -82,8 +82,8 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyRes
         /// <summary>
         /// Floating point value.
         /// </summary>
-        [JsonProperty("valuedouble")]
-        public double? Valuedouble { get; set; }
+        [JsonProperty("valueNumber")]
+        public double? ValueNumber { get; set; }
 
         /// <summary>
         /// Dictionary of named field values.
@@ -94,8 +94,8 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyRes
         /// <summary>
         /// Phone double value in E.164 format (ex. +19876543210).
         /// </summary>
-        [JsonProperty("valuePhonedouble")]
-        public string? ValuePhonedouble { get; set; }
+        [JsonProperty("valuephoneNumber")]
+        public string? ValuephoneNumber { get; set; }
 
         /// <summary>
         /// Selection group value.
