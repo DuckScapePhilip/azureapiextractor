@@ -1,7 +1,6 @@
-﻿using AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.BuildClassifier;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.ListClassifiers
+namespace AzureDocumentIntelligenceAPI.Models.MiscellaneousOperations.ListOperations
 {
     /// <summary>
     /// Classifier document type info.

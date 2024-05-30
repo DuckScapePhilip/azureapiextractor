@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace AzureDocumentIntelligenceAPI.Models.MiscellaneousOperations.GetDocumentModelBuildOperation
+namespace AzureDocumentIntelligenceAPI.Models.MiscellaneousOperations.ListOperations
 {
     /// <summary>
     /// Document model info.
@@ -29,7 +29,7 @@ namespace AzureDocumentIntelligenceAPI.Models.MiscellaneousOperations.GetDocumen
         /// Custom document model build mode.
         /// </summary>
         [JsonProperty("buildDocument")]
-        public DocumentBuildModel? BuildDocument { get; set; }
+        public DocumentBuildMode? BuildDocument { get; set; }
 
         /// <summary>
         /// Date and time (UTC) when the document model was created.

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace AzureDocumentIntelligenceAPI.Models.MiscellaneousOperations.GetDocumentModelBuildOperation
+namespace AzureDocumentIntelligenceAPI.Models.MiscellaneousOperations.ListOperations
 {
     /// <summary>
     /// Document type info.
@@ -11,7 +11,7 @@ namespace AzureDocumentIntelligenceAPI.Models.MiscellaneousOperations.GetDocumen
         /// Custom document model build mode.
         /// </summary>
         [JsonProperty("buildMode")]
-        public DocumentBuildModel? BuildMode { get; set; }
+        public DocumentBuildMode? BuildMode { get; set; }
 
         /// <summary>
         /// Document model description.

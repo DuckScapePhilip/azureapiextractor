@@ -1,5 +1,4 @@
-﻿using AzureDocumentIntelligenceAPI.Models.Errors;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyResult
 {

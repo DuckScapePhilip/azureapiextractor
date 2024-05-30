@@ -1,4 +1,4 @@
-﻿namespace AzureDocumentIntelligenceAPI.Models.MiscellaneousOperations.GetDocumentModelBuildOperation
+﻿namespace AzureDocumentIntelligenceAPI.Models.MiscellaneousOperations.ListOperations
 {
     /// <summary>
     /// Custom document model build mode.
