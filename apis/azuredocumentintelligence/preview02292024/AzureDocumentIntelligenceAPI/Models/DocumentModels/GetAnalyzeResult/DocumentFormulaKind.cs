@@ -10,11 +10,11 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentModels.GetAnalyzeResult
         /// <summary>
         /// A formula in display mode that takes up an entire line.
         /// </summary>
-        Display,
+        display,
 
         /// <summary>
         /// A formula embedded within the content of a paragraph.
         /// </summary>
-        Inline
+        inline
     }
 }

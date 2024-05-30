@@ -2,7 +2,9 @@
 
 namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.ClassifyDocument
 {
-    //Document classification parameters.
+    /// <summary>
+    /// Document classification parameters.
+    /// </summary>
     public class ClassifyDocumentRequestBody
     {
         /// <summary>

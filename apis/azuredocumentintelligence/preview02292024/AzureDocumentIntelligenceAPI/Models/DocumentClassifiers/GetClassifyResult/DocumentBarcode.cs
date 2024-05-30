@@ -17,7 +17,7 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyRes
         /// Barcode kind.
         /// </summary>
         [JsonProperty("kind")]
-        public DocumentBarcode? Kind { get; set; }
+        public DocumentBarcodeKind? Kind { get; set; }
 
         /// <summary>
         /// Bounding polygon of the barcode, with coordinates specified relative to the top-left of the page. The doubles represent the x, y values of the polygon vertices, clockwise from the left (-180 degrees inclusive) relative to the element orientation.

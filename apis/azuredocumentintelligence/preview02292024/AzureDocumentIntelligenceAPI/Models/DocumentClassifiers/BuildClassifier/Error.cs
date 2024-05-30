@@ -2,7 +2,9 @@
 
 namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.BuildClassifier
 {
-    ////The error object.
+    /// <summary>
+    /// The error object.
+    /// </summary>
     public class Error
     {
         /// <summary>

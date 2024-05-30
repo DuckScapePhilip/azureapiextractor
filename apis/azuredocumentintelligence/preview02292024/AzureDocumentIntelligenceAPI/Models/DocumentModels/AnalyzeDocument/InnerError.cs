@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.ClassifyDocumentFromStream
+namespace AzureDocumentIntelligenceAPI.Models.DocumentModels.AnalyzeDocument
 {
     /// <summary>
     /// An object containing more specific information about the error.

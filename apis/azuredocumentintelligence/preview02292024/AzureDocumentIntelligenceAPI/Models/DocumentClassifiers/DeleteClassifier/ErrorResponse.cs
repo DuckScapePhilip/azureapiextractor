@@ -2,7 +2,9 @@
 
 namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.DeleteClassifier
 {
-    // Error response object.
+    /// <summary>
+    /// Error response object.
+    /// </summary>
     public class ErrorResponse
     {
         /// <summary>

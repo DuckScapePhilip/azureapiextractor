@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.ListClassifier
+namespace AzureDocumentIntelligenceAPI.Models.DocumentModels.BuildModel
 {
     /// <summary>
     /// File list in Azure Blob Storage.

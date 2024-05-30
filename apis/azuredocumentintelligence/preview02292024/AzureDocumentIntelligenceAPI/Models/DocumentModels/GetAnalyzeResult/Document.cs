@@ -36,6 +36,5 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentModels.GetAnalyzeResult
         /// </summary>
         [JsonProperty("spans")]
         public DocumentSpan[]? Spans { get; set; }
-
     }
 }

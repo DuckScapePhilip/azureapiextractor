@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifier
+namespace AzureDocumentIntelligenceAPI.Models.DocumentModels.BuildModel
 {
     /// <summary>
     /// Error response object.

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace AzureDocumentIntelligenceAPI.Models.DocumentModels.GetAnalyzeResult
+namespace AzureDocumentIntelligenceAPI.Models.DocumentModels.AnalyzeDocument
 {
     /// <summary>
     /// Format of the content in analyzed result.

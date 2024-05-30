@@ -2,7 +2,9 @@
 
 namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.ClassifyDocument
 {
-    // An object containing more specific information about the error.
+    /// <summary>
+    /// An object containing more specific information about the error.
+    /// </summary>
     public class InnerError
     {
         /// <summary>

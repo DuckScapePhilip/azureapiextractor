@@ -1,5 +1,4 @@
-﻿using AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.BuildClassifier;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace AzureDocumentIntelligenceAPI.Models.DocumentModels.BuildModel
 {
@@ -42,6 +41,6 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentModels.BuildModel
         /// List of key-value tag attributes associated with the document model.
         /// </summary>
         [JsonProperty("tags")]
-        public string[]? Tags { get; set; }
+        public object? Tags { get; set; }
     }
 }
