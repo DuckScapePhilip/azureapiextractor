@@ -4,6 +4,8 @@ using AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.ClassifyDocument;
 using AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyResult;
 using ErrorResponse = AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.ClassifyDocument.ErrorResponse;
 using StringIndexType = AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.ClassifyDocument.StringIndexType;
+using Microsoft.Extensions.Logging;
+using AzureDocumentIntelligenceAPI.Models.DocumentModels.AnalyzeDocument;
 
 namespace AzureDocumentIntelligenceAPI.Services
 {
@@ -360,49 +362,63 @@ namespace AzureDocumentIntelligenceAPI.Services
         //        }
 
 
-        //        public async Task<AnalyzeDocumentResult> AnalyzeDocumentAsync(AnalyzeDocumentRequestBody requestBody)
-        //        {
-        //            string url = $"{_endpoint}/documentModels/analyzeDocument?api-version=2024-02-29-preview";
+        public async Task<AnalyzeResultOperation> AnalyzeDocumentAsync(AnalyzeDocumentRequest requestBody)
+        {
+            string url = $"{_endpoint}/documentModels/analyzeDocument?api-version=2024-02-29-preview";
 
-        //            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
-        //            request.Headers.Add("Ocp-Apim-Subscription-Key", _apiKey);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
+            request.Headers.Add("Ocp-Apim-Subscription-Key", _apiKey);
 
-        //            string json = JsonConvert.SerializeObject(requestBody);
-        //            request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+            string json = JsonConvert.SerializeObject(requestBody);
+            request.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        //            _logger.LogInformation($"Sending POST request to {url} with body: {json}");
+            _logger.LogInformation($"Sending POST request to {url} with body: {json}");
 
-        //            try
-        //            {
-        //                var response = await _httpClient.SendAsync(request);
-        //                var responseContent = await response.Content.ReadAsStringAsync();
+            try
+            {
+                var response = await _httpClient.SendAsync(request);
+                var responseContent = await response.Content.ReadAsStringAsync();
 
-        //                _logger.LogInformation($"Response Status Code: {response.StatusCode}");
-        //                _logger.LogInformation($"Response Content: {responseContent}");
+                _logger.LogInformation($"Response Status Code: {response.StatusCode}");
+                _logger.LogInformation($"Response Content: {responseContent}");
 
-        //                if (!response.IsSuccessStatusCode)
-        //                {
-        //                    _logger.LogError($"Failed to analyze document. Status code: {response.StatusCode}, Response: {responseContent}");
-        //                    throw new Exception($"Failed to analyze document: {responseContent}");
-        //                }
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogError($"Failed to analyze document. Status code: {response.StatusCode}, Response: {responseContent}");
+                    throw new Exception($"Failed to analyze document: {responseContent}");
+                }
 
-        //                _logger.LogInformation($"Response received: {responseContent}");
+                _logger.LogInformation($"Response received: {responseContent}");
 
-        //                var result = JsonConvert.DeserializeObject<AnalyzeDocumentResult>(responseContent);
-        //                if (result == null)
-        //                {
-        //                    _logger.LogError("Failed to deserialize analyze document result.");
-        //                    throw new Exception("Failed to deserialize analyze document result.");
-        //                }
+                var result = JsonConvert.DeserializeObject<AnalyzeResultOperation>(responseContent);
+                if (result == null)
+                {
+                    _logger.LogError("Failed to deserialize analyze document result.");
+                    throw new Exception("Failed to deserialize analyze document result.");
+                }
 
-        //                return result;
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                _logger.LogError(ex, "Exception occurred while analyzing document.");
-        //                throw;
-        //            }
-        //        }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred while analyzing document.");
+                throw;
+            }
+        }
+
+        public async Task AnalyzeDocumentAsync(string localFilePath)
+        {
+            string base64String = Convert.ToBase64String(File.ReadAllBytes(localFilePath));
+            AnalyzeResultOperation resultOperation = await AnalyzeDocumentAsync(new AnalyzeDocumentRequest()
+            {
+                Base64Source = base64String
+            });
+
+            // write the result to JSON file appended with ".ocr.json" from the original file name
+            string resultJson = JsonConvert.SerializeObject(resultOperation, Formatting.Indented);
+            string resultFilePath = Path.Combine(Path.GetDirectoryName(localFilePath) ?? "", Path.GetFileNameWithoutExtension(localFilePath) + ".ocr.json");
+            File.WriteAllText(resultFilePath, resultJson);
+        }
 
         //        public async Task<AnalyzeDocumentResult> AnalyzeDocumentFromStreamAsync(Stream documentStream)
         //        {

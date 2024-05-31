@@ -1,6 +1,0 @@
-@AzureDocumentIntelligenceAPI_HostAddress = http://localhost:5124
-
-GET {{AzureDocumentIntelligenceAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
