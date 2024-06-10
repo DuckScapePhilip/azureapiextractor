@@ -33,6 +33,7 @@
         /// <summary>
         /// The operation has succeeded.
         /// </summary>
-        succeeded
+        succeeded,
+        Succeeded
     }
 }

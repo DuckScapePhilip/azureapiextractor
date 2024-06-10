@@ -23,6 +23,6 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.BuildClassifie
         /// Type of training data source.
         /// </summary>
         [JsonProperty("sourceKind")]
-        public ContentSourceKind SourceKind { get; set; }
+        public ContentSourceKind? SourceKind { get; set; }
     }
 }

@@ -1,7 +1,9 @@
+using AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.BuildClassifier;
 using AzureDocumentIntelligenceAPI.Services;
 using Extensions.Logging.NUnit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Net.NetworkInformation;
 
 namespace AzureDocumentIntelligenceAPI.Tests
 {
@@ -58,6 +60,7 @@ namespace AzureDocumentIntelligenceAPI.Tests
                 // analyze the document
                 //TODO: var result = azureClient.AnalyzeDocumentAsync("prebuilt-layout", file);
 
+
                 // verify it generated the ".ocr.json" file
                 var ocrFile = file + ".ocr.json";
                 Assert.IsTrue(File.Exists(ocrFile), $"Expected file {ocrFile} not found.");
@@ -71,6 +74,47 @@ namespace AzureDocumentIntelligenceAPI.Tests
             var azureClient = new AzureDocumentIntelligenceClient(client, endpoint, apiKey, loggerFactory.CreateLogger<AzureDocumentIntelligenceClient>());
 
             // TODO: building this requires to specify a storage account SAS URL and two sets of documents to train the model for classification
+            // build the request body
+            var classifierId = Guid.NewGuid().ToString();
+            var description = "Unit testing our api SDK.";
+            
+
+            var requestBody = new BuildDocumentClassifierRequestBody
+            {
+                ClassifierId = classifierId,
+                Description = description,
+                DocTypes = new Dictionary<string, ClassifierDocumentTypeDetails>
+                {
+                    ["catchforms"] = new ClassifierDocumentTypeDetails
+                    {
+                        AzureBlobSource = new AzureBlobContentSource
+                        {
+                            ContainerUrl = storageSasUrl,
+                            Prefix = "classifications/trial/1032874/training/catchforms/"
+                        },
+                        SourceKind = null
+                    },
+                    ["compravenda"] = new ClassifierDocumentTypeDetails
+                    {
+                        AzureBlobSource = new AzureBlobContentSource
+                        {
+                            ContainerUrl = storageSasUrl,
+                            Prefix = "classifications/trial/1032874/training/compravenda/"
+                        },
+                        SourceKind = null
+                    }
+                }
+            };
+
+
+            
+            // build the classifier
+            var result = azureClient.BuildClassifierAsync(requestBody).GetAwaiter().GetResult();
+
+            Assert.IsNotNull(result, "Result should not be null after successful creation.");
+            Console.WriteLine($"Actual Status: '{result.Status}', Expected Status: 'succeeded'");
+
+
 
             // {
             //     "classifierId": "unittest_{Guid.NewGuid().ToString()}",

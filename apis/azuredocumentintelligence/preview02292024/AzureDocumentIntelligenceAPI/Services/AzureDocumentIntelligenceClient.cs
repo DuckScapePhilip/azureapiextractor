@@ -1,11 +1,16 @@
 ﻿using System.Text;
 using Newtonsoft.Json;
 using AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.ClassifyDocument;
-using AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.GetClassifyResult;
+using AzureDocumentIntelligenceAPI.Models.DocumentModels.AnalyzeDocument;
 using ErrorResponse = AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.ClassifyDocument.ErrorResponse;
 using StringIndexType = AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.ClassifyDocument.StringIndexType;
 using Microsoft.Extensions.Logging;
-using AzureDocumentIntelligenceAPI.Models.DocumentModels.AnalyzeDocument;
+using AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.BuildClassifier;
+using AnalyzeResult = AzureDocumentIntelligenceAPI.Models.DocumentModels.GetAnalyzeResult.AnalyzeResult;
+using AnalyzeResultOperation = AzureDocumentIntelligenceAPI.Models.DocumentModels.GetAnalyzeResult.AnalyzeResultOperation;
+using OperationStatus = AzureDocumentIntelligenceAPI.Models.DocumentModels.GetAnalyzeResult.OperationStatus;
+using AzureDocumentIntelligenceAPI.Models.MiscellaneousOperations.GetDocumentClassifierBuildOperation;
+
 
 namespace AzureDocumentIntelligenceAPI.Services
 {
@@ -15,6 +20,8 @@ namespace AzureDocumentIntelligenceAPI.Services
         private readonly string _endpoint;
         private readonly string _apiKey; //apikey private because it is sensitive information
         private readonly ILogger<AzureDocumentIntelligenceClient> _logger;
+        private Models.MiscellaneousOperations.GetDocumentClassifierBuildOperation.OperationStatus? succeeded;
+        private Models.MiscellaneousOperations.GetDocumentClassifierBuildOperation.OperationStatus? failed;
 
         // Add a new constructor to accept the endpoint and apiKey
         public AzureDocumentIntelligenceClient(HttpClient httpClient, string endpoint, string apiKey, ILogger<AzureDocumentIntelligenceClient> logger)
@@ -25,78 +32,81 @@ namespace AzureDocumentIntelligenceAPI.Services
             _logger = logger;
         }
 
-        // Add a new method to build a classifier
-        //public async Task<DocumentClassifierBuildOperationDetails> BuildClassifierAsync(BuildDocumentClassifierRequestBody requestBody)
-        //{
-        //    // ENDPOINT - Build the URL for the request
-        //    string url = $"{_endpoint}/documentintelligence/documentClassifiers:build?api-version=2024-02-29-preview";
+        //Add a new method to build a classifier
+        public async Task<DocumentClassifierBuildOperationDetails> BuildClassifierAsync(BuildDocumentClassifierRequestBody requestBody)
+        {
+            // ENDPOINT - Build the URL for the request
+            string url = $"{_endpoint}/documentintelligence/documentClassifiers:build?api-version=2024-02-29-preview";
+           
+            // Log the URL and request body
+            _logger.LogInformation($"Using endpoint: {url}");
+            _logger.LogInformation($"Request body: {JsonConvert.SerializeObject(requestBody)}");
 
-        //    // METHOD - Create a new HttpRequestMessage with the POST method and the URL
-        //    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
+            // METHOD - Create a new HttpRequestMessage with the POST method and the URL
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
 
-        //    // HEADER - Add the Ocp-Apim-Subscription-Key header with the API key
-        //    request.Headers.Add("Ocp-Apim-Subscription-Key", _apiKey);
+            // HEADER - Add the Ocp-Apim-Subscription-Key header with the API key
+            request.Headers.Add("Ocp-Apim-Subscription-Key", _apiKey);
 
-        //    // BODY - Serialize the requestBody object to JSON and set it as the content of the request
-        //    string json = JsonConvert.SerializeObject(requestBody);
-        //    request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+            // BODY - Serialize the requestBody object to JSON and set it as the content of the request
+            string json = JsonConvert.SerializeObject(requestBody);
+            request.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        //    //Sending POST request to the endpoint
-        //    _logger.LogInformation($"Sending POST request to {url} with body: {json}");
+            //Sending POST request to the endpoint
+            _logger.LogInformation($"Sending POST request to {url} with body: {json}");
 
-        //    var response = await _httpClient.SendAsync(request);
-        //    var responseContent = await response.Content.ReadAsStringAsync();
+            var response = await _httpClient.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
 
-        //    if (!response.IsSuccessStatusCode)
-        //    {
-        //        _logger.LogError($"Failed to build classification model. Status code: {response.StatusCode}, Response: {responseContent}");
-        //        throw new Exception($"Failed to build classification model: {responseContent}");
-        //    }
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError($"Failed to build classification model. Status code: {response.StatusCode}, Response: {responseContent}");
+                throw new Exception($"Failed to build classification model: {responseContent}");
+            }
 
-        //    var operationLocation = response.Headers.GetValues("Operation-Location").FirstOrDefault();
-        //    if (operationLocation == null)
-        //    {
-        //        _logger.LogError("Failed to get operation location for classification model build.");
-        //        throw new Exception("Failed to get operation location for classification model build.");
-        //    }
+            var operationLocation = response.Headers.GetValues("Operation-Location").FirstOrDefault();
+            if (operationLocation == null)
+            {
+                _logger.LogError("Failed to get operation location for classification model build.");
+                throw new Exception("Failed to get operation location for classification model build.");
+            }
 
-        //    for (int i = 0; i < 1000; i++)
-        //    {
-        //        var operationRequest = new HttpRequestMessage(HttpMethod.Get, $"{_endpoint}{operationLocation}");
-        //        operationRequest.Headers.Add("Ocp-Apim-Subscription-Key", _apiKey);
+            for (int i = 0; i < 1000; i++)
+            {
+                var operationRequest = new HttpRequestMessage(HttpMethod.Get, $"{_endpoint}{operationLocation}");
+                operationRequest.Headers.Add("Ocp-Apim-Subscription-Key", _apiKey);
 
-        //        _logger.LogInformation($"Polling operation status at {_endpoint}{operationLocation}");
+                _logger.LogInformation($"Polling operation status at {_endpoint}{operationLocation}");
 
-        //        var operationResponse = await _httpClient.SendAsync(operationRequest);
-        //        var operationResponseContent = await operationResponse.Content.ReadAsStringAsync();
+                var operationResponse = await _httpClient.SendAsync(operationRequest);
+                var operationResponseContent = await operationResponse.Content.ReadAsStringAsync();
 
-        //        if (!operationResponse.IsSuccessStatusCode)
-        //        {
-        //            _logger.LogError($"Failed to poll operation location. Status code: {operationResponse.StatusCode}, Response: {operationResponseContent}");
-        //            throw new Exception($"Failed to poll operation location for classification model build: {operationResponseContent}");
-        //        }
+                if (!operationResponse.IsSuccessStatusCode)
+                {
+                    _logger.LogError($"Failed to poll operation location. Status code: {operationResponse.StatusCode}, Response: {operationResponseContent}");
+                    throw new Exception($"Failed to poll operation location for classification model build: {operationResponseContent}");
+                }
 
-        //        var operationResult = JsonConvert.DeserializeObject<DocumentClassifierBuildOperationDetails>(operationResponseContent)
-        //            ?? throw new Exception("Failed to deserialize extraction model build response.");
+                var operationResult = JsonConvert.DeserializeObject<DocumentClassifierBuildOperationDetails>(operationResponseContent)
+                    ?? throw new Exception("Failed to deserialize extraction model build response.");
 
-        //        if (operationResult.Status == "succeeded")
-        //        {
-        //            _logger.LogInformation("Classification model build succeeded.");
-        //            return operationResult;
-        //        }
+                if (operationResult.Status == succeeded)
+                {
+                    return operationResult;
+                }
 
-        //        if (operationResult.Status == "failed")
-        //        {
-        //            _logger.LogError($"Classification model build failed: {operationResult.Error?.Message}");
-        //            throw new Exception($"Classification model build failed: {operationResult.Error?.Message}");
-        //        }
+                if (operationResult.Status == failed)
+                {
+                    _logger.LogError($"Classification model build failed: {operationResult.Error?.Message}");
+                    throw new Exception($"Classification model build failed: {operationResult.Error?.Message}");
+                }
 
-        //        await Task.Delay(1000);
-        //    }
+                await Task.Delay(1000);
+            }
 
-        //    _logger.LogError("Classification model build operation timed out.");
-        //    throw new Exception("Classification model build operation timed out.");
-        //}
+            _logger.LogError("Classification model build operation timed out.");
+            throw new Exception("Classification model build operation timed out.");
+        }
 
         // Add a new method to classify a document
         public async Task<AnalyzeResult> ClassifyDocumentAsync(string classifierId, ClassifyDocumentRequestBody requestBody, StringIndexType? stringIndexType = default, SplitMode? splitMode = default, CancellationToken cancellationToken = default)

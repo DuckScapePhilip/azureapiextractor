@@ -29,6 +29,6 @@ namespace AzureDocumentIntelligenceAPI.Models.DocumentClassifiers.BuildClassifie
         /// List of document types to classify against.
         /// </summary>
         [JsonProperty("docTypes")]
-        public List<ClassifierDocumentTypeDetails>? DocTypes { get; set; }
+        public Dictionary<string, ClassifierDocumentTypeDetails>? DocTypes { get; set; }
     }
 }
